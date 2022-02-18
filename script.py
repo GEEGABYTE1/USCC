@@ -24,6 +24,12 @@ class USCC:
         print("{value} was added to {number_add}".format(value=value, number_add=self.number_index))
         self.number_index += 1
 
+    def load_value_from_register(self, register_address):
+        index = self.bin_to_int(register_address)
+        int_value = int(self.number_registers[index])
+        return int_value
+
+
     def bin_to_int(self, binary):
         binary = str(binary)
         binary_split = []
