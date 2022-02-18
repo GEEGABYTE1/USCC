@@ -15,6 +15,36 @@ class USCC:
         print('-'*24)
         print('\n')
 
+    def store_value_to_register(self, value_to_store):
+        if self.number_index >= 21:
+            self.number_index = 1
+        
+        value = self.bin_to_int(value_to_store)
+        self.number_registers[self.number_index] = value
+
+    def bin_to_int(self, binary):
+        binary = str(binary)
+        binary_split = []
+        for num in range(len(binary) - 1, -1, -1):
+            binary_split.append(binary[num])
+        max_exponent = len(binary_split)
+        
+        exponents = []
+        for exponent in range(max_exponent - 1, -1, -1):
+            if binary_split[exponent] == '1':
+                exponents.append(exponent)
+            else:
+                continue
+        
+        result = 0 
+        for exponent in exponents:
+            result += 2 ** int(exponent)
+        
+        return result
+
+
+
+
 
 
 
@@ -22,4 +52,4 @@ class USCC:
 string_name = str(input('What would you like to name your calculator?: '))
 string_name = string_name.split(" ")[0]
 test = USCC(string_name)
-print(test.update_display('hi'))
+print(test.bin_to_int('100110001'))
