@@ -21,6 +21,8 @@ class USCC:
         
         value = self.bin_to_int(value_to_store)
         self.number_registers[self.number_index] = value
+        print("{value} was added to {number_add}".format(value=value, number_add=self.number_index))
+        self.number_index += 1
 
     def bin_to_int(self, binary):
         binary = str(binary)
