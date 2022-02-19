@@ -30,8 +30,12 @@ class USCC:
         return int_value
 
     def store_to_history_register(self, result_to_store):
-        if history_index >= 9:
-            history_index = 0
+        if self.history_index >= 9:
+            self.history_index = 0
+        bin_history = self.int_to_bin(result_to_store)
+        self.store_to_history_register[self.history_index] = bin_history
+        self.history_index += 1
+        self.temp_history_index = self.history_index
 
     def int_to_bin(self, integer):
         exponents = []
@@ -58,18 +62,7 @@ class USCC:
         
         return binary_num
         
-            
-                
-
-                
-            
-            
-            
-            
-            
-                
-                
-
+        
 
     def bin_to_int(self, binary):
         binary = str(binary)
