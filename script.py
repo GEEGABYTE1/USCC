@@ -14,7 +14,6 @@ class USCC:
         else:
             self.user_display = to_update
             print(self.user_display)
-            print("Welcome to USCC {}!".format(self.name))
             print('-'*24)
             print('\n')
 
@@ -41,32 +40,24 @@ class USCC:
         self.temp_history_index = self.history_index
 
     def add(self, address_num1, address_num2):
-        if len(address_num1) != 4 or len(address_num2) != 4:
-            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 + num2
         return calculated_value
 
     def multiply(self, address_num1, address_num2):
-        if len(address_num1) != 4 or len(address_num2) != 4:
-            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 * num2
         return calculated_value
 
     def subtraction(self, address_num1, address_num2):
-        if len(address_num1) != 4 or len(address_num2) != 4:
-            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 - num2
         return calculated_value
 
     def divide(self, address_num1, address_num2):
-        if len(address_num1) != 4 or len(address_num2) != 4:
-            return
         try:
             num1 = self.load_value_from_register(address_num1)
             num2 = self.load_value_from_register(address_num2)
@@ -92,7 +83,7 @@ class USCC:
             source_one = instruction[6: 11]
             source_two = instruction[11: 16]
             store = instruction[16: 26]
-            function_code = instruction[26: 31]
+            function_code = instruction[26: 32]
 
             if opcode == '000001':
                 self.store_value_to_register(store)
@@ -116,7 +107,7 @@ class USCC:
             else:
                 print("Invalid Instruction")
             
-            self.history_registers.append(result)
+            self.store_to_history_register(result)
             self.user_display = result
 
         else:
@@ -171,13 +162,18 @@ class USCC:
         return result
 
 
-
-
-
-
-
-
 string_name = str(input('What would you like to name your calculator?: '))
 string_name = string_name.split(" ")[0]
 test = USCC(string_name)
-print(test.binary_reader("12345678123456781234567812345678"))
+
+test.binary_reader("00000100000000000000001010000000")
+test.binary_reader("00000100000000000000000101000000")
+
+
+test.binary_reader("00000000001000100000000000100000")
+test.binary_reader("00000000001000100000000000100010")
+test.binary_reader("00000000001000100000000000011000")
+test.binary_reader("00000000001000100000000000011010")
+
+test.binary_reader("10000100000000000000000000000000")
+test.binary_reader("10000100000000000000000000000000")
