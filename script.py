@@ -166,6 +166,10 @@ string_name = str(input('What would you like to name your calculator?: '))
 string_name = string_name.split(" ")[0]
 test = USCC(string_name)
 
+
+
+# Test Inputs
+
 test.binary_reader("00000100000000000000001010000000")
 test.binary_reader("00000100000000000000000101000000")
 
