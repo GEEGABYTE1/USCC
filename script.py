@@ -29,6 +29,47 @@ class USCC:
         int_value = int(self.number_registers[index])
         return int_value
 
+    def store_to_history_register(self, result_to_store):
+        if history_index >= 9:
+            history_index = 0
+
+    def int_to_bin(self, integer):
+        exponents = []
+        counter = 0
+        remainder = 0
+        mod = 0
+        while integer >= 1:
+            while mod != 1:
+                result_mod = integer // (2 ** counter)
+                mod = result_mod
+                counter += 1
+            counter -= 1
+            exponents.append(counter)
+            integer = integer - (2 ** counter)
+            counter = 0 
+            mod = 0
+        
+        binary_num = ''
+        for i in range(max(exponents), -1, -1):
+            if i in exponents:
+                binary_num += '1'
+            else:
+                binary_num += '0'
+        
+        return binary_num
+        
+            
+                
+
+                
+            
+            
+            
+            
+            
+                
+                
+
 
     def bin_to_int(self, binary):
         binary = str(binary)
@@ -60,4 +101,4 @@ class USCC:
 string_name = str(input('What would you like to name your calculator?: '))
 string_name = string_name.split(" ")[0]
 test = USCC(string_name)
-print(test.bin_to_int('100110001'))
+print(test.int_to_bin(206))
