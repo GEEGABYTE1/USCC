@@ -37,6 +37,12 @@ class USCC:
         self.history_index += 1
         self.temp_history_index = self.history_index
 
+    def add(self, address_num1, address_num2):
+        num1 = self.load_value_from_register(address_num1)
+        num2 = self.load_value_from_register(address_num2)
+        calculated_value = num1 + num2
+        return calculated_value
+
     def int_to_bin(self, integer):
         exponents = []
         counter = 0
