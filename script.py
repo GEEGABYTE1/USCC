@@ -9,11 +9,14 @@ class USCC:
         self.user_display = ''
 
     def update_display(self, to_update):
-        self.user_display = to_update
-        print(self.user_display)
-        print("Welcome to USCC {}!".format(self.name))
-        print('-'*24)
-        print('\n')
+        if to_update == 'Invalid OPCODE':
+            print("Invalid OPCODE")
+        else:
+            self.user_display = to_update
+            print(self.user_display)
+            print("Welcome to USCC {}!".format(self.name))
+            print('-'*24)
+            print('\n')
 
     def store_value_to_register(self, value_to_store):
         if self.number_index >= 21:
@@ -38,24 +41,32 @@ class USCC:
         self.temp_history_index = self.history_index
 
     def add(self, address_num1, address_num2):
+        if len(address_num1) != 4 or len(address_num2) != 4:
+            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 + num2
         return calculated_value
 
     def multiply(self, address_num1, address_num2):
+        if len(address_num1) != 4 or len(address_num2) != 4:
+            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 * num2
         return calculated_value
 
     def subtraction(self, address_num1, address_num2):
+        if len(address_num1) != 4 or len(address_num2) != 4:
+            return
         num1 = self.load_value_from_register(address_num1)
         num2 = self.load_value_from_register(address_num2)
         calculated_value = num1 - num2
         return calculated_value
 
     def divide(self, address_num1, address_num2):
+        if len(address_num1) != 4 or len(address_num2) != 4:
+            return
         try:
             num1 = self.load_value_from_register(address_num1)
             num2 = self.load_value_from_register(address_num2)
@@ -65,6 +76,7 @@ class USCC:
             
         except:
             print("Division by 0 error: {}/{}".format(num1, num2))
+            return
            
         return calculate_value
 
@@ -72,7 +84,44 @@ class USCC:
         self.temp_history_index -= 1
         val = self.bin_to_int(self.history_registers[self.temp_history_index])
         last_value = "Last value: {}".format(val)
-        self.update_display = last_value
+        self.update_display(last_value)
+
+    def binary_reader(self, instruction):
+        if len(instruction) == 32:
+            opcode = instruction[:6]
+            source_one = instruction[6: 11]
+            source_two = instruction[11: 16]
+            store = instruction[16: 26]
+            function_code = instruction[26: 31]
+
+            if opcode == '000001':
+                self.store_value_to_register(store)
+                return
+            elif opcode == '100001':
+                self.get_last_calculation()
+                return
+            elif opcode != '000000':
+                self.update_display("Invalid OPCODE")
+                return
+            
+            result = 0
+            if function_code == '100000':
+                result = self.add(source_one, source_two)
+            elif function_code == '100010':
+                result = self.subtraction(source_one, source_two)
+            elif function_code == '011000':
+                result = self.multiply(source_one, source_two)
+            elif function_code == '011010':
+                result = self.divide(source_one, source_two)
+            else:
+                print("Invalid Instruction")
+            
+            self.history_registers.append(result)
+            self.user_display = result
+
+        else:
+            print("Invalid Length")
+            return
 
     def int_to_bin(self, integer):
         exponents = []
@@ -131,4 +180,4 @@ class USCC:
 string_name = str(input('What would you like to name your calculator?: '))
 string_name = string_name.split(" ")[0]
 test = USCC(string_name)
-print(test.int_to_bin(206))
+print(test.binary_reader("12345678123456781234567812345678"))
