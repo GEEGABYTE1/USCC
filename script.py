@@ -64,10 +64,15 @@ class USCC:
                 calculate_value = int(num1 / num2)
             
         except:
-            print("Division by 0 error: {}/{}".format(num1/num2))
+            print("Division by 0 error: {}/{}".format(num1, num2))
            
         return calculate_value
 
+    def get_last_calculation(self):
+        self.temp_history_index -= 1
+        val = self.bin_to_int(self.history_registers[self.temp_history_index])
+        last_value = "Last value: {}".format(val)
+        self.update_display = last_value
 
     def int_to_bin(self, integer):
         exponents = []
