@@ -55,6 +55,20 @@ class USCC:
         calculated_value = num1 - num2
         return calculated_value
 
+    def divide(self, address_num1, address_num2):
+        try:
+            num1 = self.load_value_from_register(address_num1)
+            num2 = self.load_value_from_register(address_num2)
+            calculate_value = 0 
+            if num2 != 0:
+                calculate_value = int(num1 / num2)
+            
+        except:
+            print("Division by 0 error: {}/{}".format(num1/num2))
+           
+        return calculate_value
+
+
     def int_to_bin(self, integer):
         exponents = []
         counter = 0
